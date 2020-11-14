@@ -2,7 +2,7 @@ from typing import List
 
 from fastapi import APIRouter, status
 
-from shemes import Subject
+from .shemes import Subject
 
 
 schedule = APIRouter()
