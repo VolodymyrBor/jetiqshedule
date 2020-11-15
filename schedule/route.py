@@ -22,3 +22,11 @@ async def create_subject(subject: Subject):
 @schedule.get('/subject/{name}', response_model=Subject, tags=['subjects'])
 async def get_subject(name: str):
     return await crud.get_subject(name)
+
+
+@schedule.delete('/subject/{name}', tags=['subjects'])
+async def delete_subject(name: str):
+    await crud.delete_subject(name)
+    return {
+        'message': 'successfully'
+    }

@@ -16,3 +16,8 @@ async def create_subject(subject_data: shemes.Subject) -> models.Subject:
 async def get_subject(name: str) -> models.Subject:
     subject = await models.Subject.get(name=name)
     return subject
+
+
+async def delete_subject(name: str):
+    subject = await get_subject(name)
+    await subject.delete()
