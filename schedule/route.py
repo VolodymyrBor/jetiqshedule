@@ -3,7 +3,7 @@ from typing import List
 from fastapi import APIRouter, status
 
 from . import crud
-from .shemes import Subject
+from .shemes import Subject, SubjectUpdate
 
 
 schedule = APIRouter()
@@ -30,3 +30,8 @@ async def delete_subject(name: str):
     return {
         'message': 'successfully'
     }
+
+
+@schedule.patch('/subject/{name}', response_model=Subject, tags=['subjects'])
+async def update_subject(name: str, update_data: SubjectUpdate):
+    return await crud.update_subject(name, update_data)
