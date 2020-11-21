@@ -3,7 +3,7 @@ from typing import List
 from fastapi import APIRouter, status
 
 from . import crud
-from .shemes import Subject, SubjectUpdate
+from .shemes import Subject, SubjectUpdate, Lesson, LessonInDB
 
 
 schedule = APIRouter()
@@ -35,3 +35,14 @@ async def delete_subject(name: str):
 @schedule.patch('/subject/{name}', response_model=Subject, tags=['subjects'])
 async def update_subject(name: str, update_data: SubjectUpdate):
     return await crud.update_subject(name, update_data)
+
+
+@schedule.get('/lesson', response_model=List[LessonInDB], tags=['lessons'])
+async def get_all_lessons():
+    lessons = await crud.get_all_lessons()
+    return lessons
+
+
+@schedule.put('/lesson', response_model=LessonInDB, tags=['lessons'])
+async def create_lesson(lesson: Lesson):
+    return await crud.create_lesson(lesson)

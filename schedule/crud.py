@@ -1,3 +1,4 @@
+import datetime
 from typing import List
 
 from . import shemes, models
@@ -29,3 +30,23 @@ async def update_subject(name: str, update_data: shemes.SubjectUpdate) -> models
     updated_subject = await subject.update_from_dict(update_dict)
     await updated_subject.save()
     return updated_subject
+
+
+async def get_all_lessons() -> List[models.Lesson]:
+    lessons = await models.Lesson.all().prefetch_related('subject')
+    return lessons
+
+
+async def create_lesson(lesson_data: shemes.Lesson) -> models.Lesson:
+    lesson_dict = lesson_data.dict(exclude={'time', 'subject_name'})
+    lesson_time = datetime.datetime(
+        year=2020,
+        month=1,
+        day=1,
+        hour=lesson_data.time.hour,
+        minute=lesson_data.time.minute,
+    )
+    lesson_dict['time'] = lesson_time
+    lesson_dict['subject'] = await get_subject(lesson_data.subject_name)
+    lesson: models.Lesson = await models.Lesson.create(**lesson_dict)
+    return lesson

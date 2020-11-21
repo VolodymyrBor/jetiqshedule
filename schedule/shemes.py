@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 
 from pydantic import BaseModel
 
@@ -18,11 +18,22 @@ class SubjectUpdate(Subject):
     teacher: str = None
 
 
-class Lesson(BaseModel):
-    id: int
-    time: datetime
+class BaseLesson(BaseModel):
+    time: datetime.datetime
     weekday: WeekDays
     week_slug: str
+
+
+class Lesson(BaseLesson):
+    time: datetime.time
+    subject_name: str
+
+    class Config:
+        orm_mode = True
+
+
+class LessonInDB(BaseLesson):
+    id: int
     subject: Subject
 
     class Config:
