@@ -2,7 +2,7 @@ import uvicorn
 from fastapi import FastAPI
 
 from databases import sqlite
-from schedule.route import schedule
+from lesson_scheduler.route import schedule
 
 
 app = FastAPI()
