@@ -62,3 +62,8 @@ async def create_lesson(lesson_data: shemes.Lesson) -> models.Lesson:
 async def get_lesson_by_id(lesson_id: int) -> models.Lesson:
     lesson = await models.Lesson.get(id=lesson_id).prefetch_related('subject')
     return lesson
+
+
+async def delete_lesson(lesson_id: int):
+    lesson = await get_lesson_by_id(lesson_id)
+    await lesson.delete()

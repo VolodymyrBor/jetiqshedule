@@ -54,3 +54,11 @@ async def get_lesson(lesson_id: int):
 @schedule.put('/lesson', response_model=LessonInDB, tags=['lessons'])
 async def create_lesson(lesson: Lesson):
     return await crud.create_lesson(lesson)
+
+
+@schedule.delete('/lesson/{lesson_id}', tags=['lessons'])
+async def delete_lesson(lesson_id: int):
+    await crud.delete_lesson(lesson_id)
+    return {
+        'message': 'lesson deleted successfully',
+    }
