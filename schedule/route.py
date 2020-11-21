@@ -2,7 +2,7 @@ from typing import List
 
 from fastapi import APIRouter, status
 
-from . import crud
+from . import crud, enums
 from .shemes import Subject, SubjectUpdate, Lesson, LessonInDB
 
 
@@ -38,8 +38,11 @@ async def update_subject(name: str, update_data: SubjectUpdate):
 
 
 @schedule.get('/lesson', response_model=List[LessonInDB], tags=['lessons'])
-async def get_all_lessons():
-    lessons = await crud.get_all_lessons()
+async def get_lessons(weekday: enums.WeekDays = None, week_slug: str = None):
+    lessons = await crud.get_lessons(
+        weekday=weekday,
+        week_slug=week_slug,
+    )
     return lessons
 
 

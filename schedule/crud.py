@@ -1,7 +1,7 @@
 import datetime
 from typing import List
 
-from . import shemes, models
+from . import shemes, models, enums
 
 
 async def get_all_subjects() -> List[models.Subject]:
@@ -32,9 +32,16 @@ async def update_subject(name: str, update_data: shemes.SubjectUpdate) -> models
     return updated_subject
 
 
-async def get_all_lessons() -> List[models.Lesson]:
-    lessons = await models.Lesson.all().prefetch_related('subject')
-    return lessons
+async def get_lessons(weekday: enums.WeekDays = None, week_slug: str = None) -> List[models.Lesson]:
+    lessons = models.Lesson.all()
+
+    if weekday:
+        lessons = lessons.filter(weekday=weekday)
+
+    if week_slug:
+        lessons = lessons.filter(week_slug=week_slug)
+
+    return await lessons.prefetch_related('subject')
 
 
 async def create_lesson(lesson_data: shemes.Lesson) -> models.Lesson:
