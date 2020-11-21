@@ -43,6 +43,11 @@ async def get_all_lessons():
     return lessons
 
 
+@schedule.get('/lesson/{lesson_id}', response_model=LessonInDB, tags=['lessons'])
+async def get_lesson(lesson_id: int):
+    return await crud.get_lesson_by_id(lesson_id)
+
+
 @schedule.put('/lesson', response_model=LessonInDB, tags=['lessons'])
 async def create_lesson(lesson: Lesson):
     return await crud.create_lesson(lesson)
