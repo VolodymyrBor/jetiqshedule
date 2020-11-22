@@ -3,7 +3,7 @@ from typing import List
 from fastapi import APIRouter, status
 
 from . import crud, enums
-from .shemes import Subject, SubjectUpdate, Lesson, LessonInDB
+from .schemes import Subject, SubjectUpdate, Lesson, LessonInDB
 
 
 schedule = APIRouter()

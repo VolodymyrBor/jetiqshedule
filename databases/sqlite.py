@@ -11,8 +11,8 @@ TORTOISE_ORM = {
         }
     },
     'apps': {
-        'schedule': {
-            'models': ['schedule.models'],
+        'lesson_schedule': {
+            'models': ['lesson_schedule.models'],
             'default_connection': 'default',
         }
     }

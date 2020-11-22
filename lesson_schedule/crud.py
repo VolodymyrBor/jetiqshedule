@@ -1,14 +1,14 @@
 import datetime
 from typing import List
 
-from . import shemes, models, enums
+from . import schemes, models, enums
 
 
 async def get_all_subjects() -> List[models.Subject]:
     return await models.Subject.all()
 
 
-async def create_subject(subject_data: shemes.Subject) -> models.Subject:
+async def create_subject(subject_data: schemes.Subject) -> models.Subject:
     subject_dict = subject_data.dict()
     subject: models.Subject = await models.Subject.create(**subject_dict)
     return subject
@@ -24,7 +24,7 @@ async def delete_subject(name: str):
     await subject.delete()
 
 
-async def update_subject(name: str, update_data: shemes.SubjectUpdate) -> models.Subject:
+async def update_subject(name: str, update_data: schemes.SubjectUpdate) -> models.Subject:
     subject = await get_subject(name)
     update_dict = update_data.dict(exclude_none=True)
     updated_subject = await subject.update_from_dict(update_dict)
@@ -44,7 +44,7 @@ async def get_lessons(weekday: enums.WeekDays = None, week_slug: str = None) -> 
     return await lessons.prefetch_related('subject')
 
 
-async def create_lesson(lesson_data: shemes.Lesson) -> models.Lesson:
+async def create_lesson(lesson_data: schemes.Lesson) -> models.Lesson:
     lesson_dict = lesson_data.dict(exclude={'time', 'subject_name'})
     lesson_time = datetime.datetime(
         year=2020,
