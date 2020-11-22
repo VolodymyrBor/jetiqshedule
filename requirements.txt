@@ -1,4 +1,7 @@
 fastapi~=0.61.2
-uvicorn~=0.12.2
-tortoise-orm~=0.16.17
+uvicorn~=0.12.3
+tortoise-orm~=0.16.18
 aiosqlite~=0.16.0
+selenium~=3.141.0
+requests~=2.25.0
+pydantic~=1.7.2
