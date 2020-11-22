@@ -1,6 +1,6 @@
 from tortoise import models, fields
 
-from . import enums
+from visit_scheduler import enums
 
 
 class VisitStatus(models.Model):
