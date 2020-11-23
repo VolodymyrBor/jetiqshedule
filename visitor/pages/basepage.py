@@ -3,7 +3,7 @@ from typing import Union
 
 from selenium.webdriver import Chrome, Firefox, Safari
 
-from lessonruner.webdrivers import get_chrome
+from ..webdrivers import get_chrome
 
 
 class BasePage:

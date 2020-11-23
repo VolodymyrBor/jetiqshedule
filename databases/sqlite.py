@@ -1,3 +1,5 @@
+from databases import SQL_LITE_PATH
+
 from tortoise import Tortoise
 
 
@@ -6,7 +8,7 @@ TORTOISE_ORM = {
         'default': {
             'engine': 'tortoise.backends.sqlite',
             'credentials': {
-                'file_path': 'db.sqlite3',
+                'file_path': SQL_LITE_PATH,
             }
         }
     },

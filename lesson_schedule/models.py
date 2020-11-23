@@ -20,7 +20,7 @@ class Lesson(models.Model):
 
     # Relations
     subject: Subject = fields.ForeignKeyField(
-        'schedule.Subject',
+        'lesson_schedule.Subject',
         related_name='lessons',
         on_delete=fields.CASCADE,
     )

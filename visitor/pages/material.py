@@ -2,7 +2,7 @@ from typing import Iterable, List
 
 from .basepage import BasePage
 from ..locators import MaterialLocators
-from lesson_schedule.shemes import Subject
+from lesson_schedule.schemes import Subject
 
 
 class MaterialPage(BasePage):
