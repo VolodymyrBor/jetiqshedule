@@ -1,4 +1,5 @@
 import datetime
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -8,7 +9,7 @@ from .enums import WeekDays
 class Subject(BaseModel):
     name: str
     teacher: str
-    meet_url_name: str = None
+    meet_url_name: Optional[str] = None
 
     class Config:
         orm_mode = True
