@@ -9,7 +9,7 @@ from lesson_schedule.schemes import Subject
 
 class Visitor:
     """
-    Goes to subject's pages and go to meet.
+    Goes to subject's pages and and open meet.
     """
 
     def __init__(self, username: str, password: str):
