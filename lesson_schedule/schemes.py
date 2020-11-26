@@ -8,7 +8,7 @@ from .enums import WeekDays
 class Subject(BaseModel):
     name: str
     teacher: str
-    meet_url_name: str
+    meet_url_name: str = None
 
     class Config:
         orm_mode = True
