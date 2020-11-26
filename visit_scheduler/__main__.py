@@ -10,5 +10,5 @@ async def run_scheduler():
 
 
 if __name__ == '__main__':
-    logger_configure()
+    logger_configure('DEBUG')
     asyncio.run(run_scheduler())

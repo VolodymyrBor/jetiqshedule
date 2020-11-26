@@ -10,7 +10,7 @@ class SubjectPage(BasePage):
     def open_meeting(self, subject: Subject):
 
         if not subject.meet_url_name:
-            self.logger.warning("Failed open meet for subject. Subject doesn't have 'meet_url_name'")
+            self.logger.warning(f"Failed open meet for subject. Subject {subject.name!r} doesn't have 'meet_url_name'")
             return
 
         resources = self.browser.find_elements(*SubjectLocators.RESOURCES)

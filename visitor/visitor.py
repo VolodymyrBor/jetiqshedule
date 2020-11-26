@@ -25,7 +25,7 @@ class Visitor:
             self._visit_subjects(subjects, browser)
         finally:
             browser.close()
-        self.logger.info('Finished.')
+        self.logger.info(f'Finished {len(subjects)} subjects.')
 
     def _visit_subjects(self, subjects: Iterable[Subject], browser):
         mainpage = pages.MainPage(url=URLS.LOGIN_URL, browser=browser)
@@ -43,7 +43,7 @@ class Visitor:
         material_page = pages.MaterialPage(browser=browser, url=URLS.MATERIAL_URL)
         material_page.open()
         subjects_urls = material_page.get_subjects_urls(subjects)
-        self.logger.info('Visiting subjects...')
+        self.logger.debug('Visiting subjects...')
         for url, subject in zip(subjects_urls, subjects):
             subject_page = pages.SubjectPage(browser=browser, url=url, wait=1)
             subject_page.open()

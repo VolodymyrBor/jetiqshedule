@@ -3,6 +3,8 @@ import logging
 import datetime
 from typing import List
 
+from selenium.common.exceptions import WebDriverException
+
 from databases import sqlite
 from .enums import VisitStatuses
 from logger import LOG_BASE_NAME
@@ -47,7 +49,7 @@ class VisitScheduler:
                     username=visit.login,
                 )
                 visitor.run([subject])
-            except Exception as err:
+            except WebDriverException as err:
                 self.logger.warning(err)
                 visit.error_message = str(err)
                 visit.status = VisitStatuses.FAILED
