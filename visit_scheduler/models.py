@@ -4,7 +4,7 @@ from . import enums
 from lesson_schedule.models import Lesson
 
 
-class ScheduledLesson(models.Model):
+class ScheduledVisit(models.Model):
     date = fields.DateField(auto_now_add=True)
     lesson: Lesson = fields.ForeignKeyField('lesson_schedule.Lesson', on_delete=fields.CASCADE)
     login = fields.CharField(max_length=200)

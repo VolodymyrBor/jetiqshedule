@@ -7,7 +7,7 @@ from databases import sqlite
 from .enums import VisitStatuses
 from logger import LOG_BASE_NAME
 from visitor.visitor import Visitor
-from visit_scheduler.models import ScheduledLesson
+from visit_scheduler.models import ScheduledVisit
 
 
 class VisitScheduler:
@@ -29,29 +29,29 @@ class VisitScheduler:
 
     async def ping(self):
         now = datetime.datetime.now()
-        lessons = await self._get_lessons(now)
-        self.logger.info(f'Got {len(lessons)} lessons that needs to visit.')
-        for lesson in lessons:
-            lesson.status = VisitStatuses.running
-            await lesson.save()
+        visits = await self._get_lessons(now)
+        self.logger.info(f'Got {len(visits)} visits that needs to do.')
+        for visit in visits:
+            visit.status = VisitStatuses.running
+            await visit.save()
 
-            subject = await lesson.lesson.subject
-            visitor = Visitor(password=lesson.password, username=lesson.login)
+            subject = await visit.lesson.subject
+            visitor = Visitor(password=visit.password, username=visit.login)
             try:
                 visitor.run([subject])
             except Exception as err:
                 self.logger.warning(err)
-                lesson.error_message = str(err)
-                lesson.status = VisitStatuses.failed
+                visit.error_message = str(err)
+                visit.status = VisitStatuses.failed
             else:
-                lesson.status = VisitStatuses.successful
+                visit.status = VisitStatuses.successful
 
-            lesson.visit_finish = datetime.datetime.now()
-            await lesson.save()
+            visit.visit_finish = datetime.datetime.now()
+            await visit.save()
 
     @staticmethod
-    async def _get_lessons(before: datetime.datetime) -> List[ScheduledLesson]:
-        lessons = ScheduledLesson.filter(date__lte=before.date())
+    async def _get_lessons(before: datetime.datetime) -> List[ScheduledVisit]:
+        lessons = ScheduledVisit.filter(date__lte=before.date())
         lessons = await lessons.prefetch_related('lesson')
         return [
             lesson for lesson in lessons
