@@ -12,15 +12,14 @@ class Visitor:
     Goes to subject's pages and go to meet.
     """
 
-    def __init__(self, username: str, password: str, proxy: str = None):
-        self.proxy = proxy
+    def __init__(self, username: str, password: str):
         self.password = password
         self.username = username
         self.logger = logger.get_logger('Visitor')
 
     def run(self, subjects: Iterable[Subject]):
         subjects = tuple(subjects)
-        browser = get_chrome(load=False, proxy=self.proxy)
+        browser = get_chrome(load=False)
         try:
             self._visit_subjects(subjects, browser)
         finally:
@@ -33,7 +32,7 @@ class Visitor:
         mainpage.open()
         self.logger.info('Go to login page.')
         mainpage.go_to_login()
-
+        mainpage.wait(2)
         login_page = pages.LoginPage(browser=browser,
                                      url=mainpage.browser.current_url)
 
@@ -41,7 +40,7 @@ class Visitor:
         login_page.login(username=self.username,
                          password=self.password)
 
-        login_page.wait(1)
+        login_page.wait(2)
 
         material_page = pages.MaterialPage(browser=browser, url=URLS.MATERIAL_URL)
         self.logger.info('Go to material')

@@ -8,14 +8,12 @@ from .enums import VisitStatuses
 from logger import LOG_BASE_NAME
 from visitor.visitor import Visitor
 from visit_scheduler.models import ScheduledVisit
-from proxy.proxy_cache import ProxyCache
 
 
 class VisitScheduler:
 
     def __init__(self, interval: float = 1):
         self.interval = interval
-        self.proxy_cache = ProxyCache()
         self.logger = logging.getLogger(f'{LOG_BASE_NAME}.VisitScheduler')
 
     async def run(self):
@@ -47,7 +45,6 @@ class VisitScheduler:
                 visitor = Visitor(
                     password=visit.password,
                     username=visit.login,
-                    proxy=self.proxy_cache.get_proxy()
                 )
                 visitor.run([subject])
             except Exception as err:

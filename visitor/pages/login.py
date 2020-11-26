@@ -9,10 +9,10 @@ class LoginPage(BasePage):
         password_input = self.browser.find_element(*LoginLocators.PASSWORD)
 
         login_input.send_keys(username)
-        self.wait(1)
+        self.wait(2)
 
         password_input.send_keys(password)
-        self.wait(1)
+        self.wait(2)
 
         send = self.browser.find_element(*LoginLocators.ENTER_BUTTON)
         send.click()

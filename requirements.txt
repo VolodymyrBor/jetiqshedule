@@ -5,5 +5,3 @@ aiosqlite~=0.16.0
 selenium~=3.141.0
 requests~=2.25.0
 pydantic~=1.7.2
-pubproxpy~=2.0.0
-selenium-wire~=2.1.2

@@ -1,3 +1,5 @@
+from selenium.common.exceptions import NoSuchElementException
+
 from .basepage import BasePage
 from ..locators import SubjectLocators
 from lesson_schedule.schemes import Subject
@@ -12,7 +14,11 @@ class SubjectPage(BasePage):
 
         resources = self.browser.find_elements(*SubjectLocators.RESOURCES)
         for r in resources:
-            resource_name_el = r.find_element(*SubjectLocators.RESOURCE_NAME)
+            try:
+                resource_name_el = r.find_element(*SubjectLocators.RESOURCE_NAME)
+            except NoSuchElementException:
+                continue
+
             resource_name: str = resource_name_el.text
             if resource_name.lower().strip('. ') == subject.meet_url_name.lower().strip('. '):
                 resource_name_el.click()
