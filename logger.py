@@ -19,3 +19,6 @@ def logger_configure(level: str = 'DEBUG', root_level: str = 'WARNING') -> None:
 
     # local logger
     logging.getLogger(LOG_BASE_NAME).setLevel(level)
+
+def get_logger(name: str):
+    return logging.getLogger(f'{LOG_BASE_NAME}.{name}')

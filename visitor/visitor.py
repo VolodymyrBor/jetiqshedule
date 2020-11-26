@@ -1,6 +1,6 @@
-import logging
 from typing import Iterable
 
+import logger
 from . import pages
 from .locators import URLS
 from .webdrivers import get_chrome
@@ -12,14 +12,15 @@ class Visitor:
     Goes to subject's pages and go to meet.
     """
 
-    def __init__(self, username: str, password: str):
+    def __init__(self, username: str, password: str, proxy: str = None):
+        self.proxy = proxy
         self.password = password
         self.username = username
-        self.logger = logging.getLogger('Visitor')
+        self.logger = logger.get_logger('Visitor')
 
     def run(self, subjects: Iterable[Subject]):
         subjects = tuple(subjects)
-        browser = get_chrome(load=False)
+        browser = get_chrome(load=False, proxy=self.proxy)
         try:
             self._visit_subjects(subjects, browser)
         finally:
