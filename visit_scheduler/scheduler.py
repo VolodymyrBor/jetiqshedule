@@ -32,7 +32,7 @@ class VisitScheduler:
         visits = await self._get_lessons(now)
         self.logger.info(f'Got {len(visits)} visits that needs to do.')
         for visit in visits:
-            visit.status = VisitStatuses.running
+            visit.status = VisitStatuses.RUNNING
             await visit.save()
 
             subject = await visit.lesson.subject
@@ -42,9 +42,9 @@ class VisitScheduler:
             except Exception as err:
                 self.logger.warning(err)
                 visit.error_message = str(err)
-                visit.status = VisitStatuses.failed
+                visit.status = VisitStatuses.FAILED
             else:
-                visit.status = VisitStatuses.successful
+                visit.status = VisitStatuses.SUCCESSFUL
 
             visit.visit_finish = datetime.datetime.now()
             await visit.save()
@@ -55,7 +55,7 @@ class VisitScheduler:
         lessons = await lessons.prefetch_related('lesson')
         return [
             lesson for lesson in lessons
-            if lesson.lesson.time.time() <= before.time() and lesson.status == VisitStatuses.created
+            if lesson.lesson.time.time() <= before.time() and lesson.status == VisitStatuses.CREATED
         ]
 
     async def connect(self):

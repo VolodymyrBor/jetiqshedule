@@ -6,17 +6,12 @@ from .enums import VisitStatuses
 from lesson_schedule.schemes import LessonInDB
 
 
-class VisitStatus(BaseModel):
-    id: int
-    status: VisitStatuses
-    error_message: str = None
-    start = datetime.datetime
-    finish = datetime.datetime
-
-
-class ScheduledLesson(BaseModel):
-    date: datetime.datetime
-    lesson: LessonInDB
-    status: VisitStatus
+class ScheduledVisit(BaseModel):
     login: str
     password: str
+    lesson: LessonInDB
+    status: VisitStatuses
+    date: datetime.datetime
+    error_message: str = None
+    visit_start: datetime.datetime = None
+    visit_finish: datetime.datetime = None
