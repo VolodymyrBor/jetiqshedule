@@ -5,6 +5,8 @@ from ..locators import LoginLocators
 class LoginPage(BasePage):
 
     def login(self, username: str, password: str):
+        self.logger.debug(f'Login {username}')
+
         login_input = self.browser.find_element(*LoginLocators.LOGIN_NAME)
         password_input = self.browser.find_element(*LoginLocators.PASSWORD)
 

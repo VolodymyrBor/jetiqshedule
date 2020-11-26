@@ -20,6 +20,7 @@ class Visitor:
     def run(self, subjects: Iterable[Subject]):
         subjects = tuple(subjects)
         browser = get_chrome(load=False)
+        self.logger.info(f'Start visiting of {len(subjects)} subjects.')
         try:
             self._visit_subjects(subjects, browser)
         finally:
@@ -28,22 +29,18 @@ class Visitor:
 
     def _visit_subjects(self, subjects: Iterable[Subject], browser):
         mainpage = pages.MainPage(url=URLS.LOGIN_URL, browser=browser)
-        self.logger.info('Open main page.')
         mainpage.open()
-        self.logger.info('Go to login page.')
         mainpage.go_to_login()
         mainpage.wait(2)
         login_page = pages.LoginPage(browser=browser,
                                      url=mainpage.browser.current_url)
 
-        self.logger.info('Login user.')
         login_page.login(username=self.username,
                          password=self.password)
 
         login_page.wait(2)
 
         material_page = pages.MaterialPage(browser=browser, url=URLS.MATERIAL_URL)
-        self.logger.info('Go to material')
         material_page.open()
         subjects_urls = material_page.get_subjects_urls(subjects)
         self.logger.info('Visiting subjects...')
