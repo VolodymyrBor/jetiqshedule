@@ -22,6 +22,8 @@ def get_chrome(load: bool = True) -> webdriver.Chrome:
 
     options = webdriver.ChromeOptions()
     options.add_argument(f'--user-agent={get_user_agent()}')
+    options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
 
     chrome = webdriver.Chrome(
         desired_capabilities=cap,
