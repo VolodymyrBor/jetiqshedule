@@ -10,7 +10,7 @@ class ScheduledVisit(models.Model):
     login = fields.CharField(max_length=200)
     password = fields.CharField(max_length=200)
 
-    status = fields.CharEnumField(enums.VisitStatuses, default=enums.VisitStatuses.created)
+    status = fields.CharEnumField(enums.VisitStatuses, default=enums.VisitStatuses.CREATED)
     error_message = fields.CharField(max_length=200, null=True)
     visit_start = fields.DatetimeField(null=True)
     visit_finish = fields.DatetimeField(null=True)

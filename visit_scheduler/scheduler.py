@@ -20,7 +20,7 @@ class VisitScheduler:
         self.logger.info('Scheduler started.')
         while True:
             try:
-                self.logger.info('pinging...')
+                self.logger.info('pinging db for new visit...')
                 await self.ping()
                 time.sleep(self.interval)
             except (InterruptedError, KeyboardInterrupt):
