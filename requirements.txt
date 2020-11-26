@@ -5,3 +5,5 @@ aiosqlite~=0.16.0
 selenium~=3.141.0
 requests~=2.25.0
 pydantic~=1.7.2
+invoke~=1.4.1
+yarl~=1.6.3
