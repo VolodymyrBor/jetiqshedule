@@ -38,3 +38,10 @@ class LessonInDB(BaseLesson):
 
     class Config:
         orm_mode = True
+
+
+class LessonUpdate(Lesson):
+    time: datetime.time = None
+    subject_name: str = None
+    weekday: WeekDays = None
+    week_slug: str = None

@@ -3,7 +3,7 @@ from typing import List
 from fastapi import APIRouter, status
 
 from . import crud, enums
-from .schemes import Subject, SubjectUpdate, Lesson, LessonInDB
+from .schemes import Subject, SubjectUpdate, Lesson, LessonInDB, LessonUpdate
 
 
 schedule = APIRouter()
@@ -62,3 +62,8 @@ async def delete_lesson(lesson_id: int):
     return {
         'message': 'lesson deleted successfully',
     }
+
+
+@schedule.patch('/lesson/{lesson_id}', response_model=LessonInDB, tags=['lessons'])
+async def update_lesson(lesson_id: int, update_data: LessonUpdate):
+    return await crud.update_lesson(lesson_id, update_data)
