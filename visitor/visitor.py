@@ -20,7 +20,13 @@ class Visitor:
     def run(self, subjects: Iterable[Subject]):
         subjects = tuple(subjects)
         browser = get_chrome(load=False)
+        try:
+            self._visit_subjects(subjects, browser)
+        finally:
+            browser.close()
+        self.logger.info('Finished.')
 
+    def _visit_subjects(self, subjects: Iterable[Subject], browser):
         mainpage = pages.MainPage(url=URLS.LOGIN_URL, browser=browser)
         self.logger.info('Open main page.')
         mainpage.open()
@@ -44,8 +50,6 @@ class Visitor:
         for url in subjects_urls:
             subject_page = pages.SubjectPage(browser=browser, url=url, wait=1)
             subject_page.open()
+            subject_page.wait(0.5)
             subject_page.open_meeting()
             subject_page.wait(2)
-
-        browser.close()
-        self.logger.info('Finished.')
