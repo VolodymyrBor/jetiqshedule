@@ -23,6 +23,8 @@ class Visitor:
         self.logger.info(f'Start visiting of {len(subjects)} subjects.')
         try:
             self._visit_subjects(subjects, browser)
+        except Exception as err:
+            self.logger.warning(err)
         finally:
             browser.close()
         self.logger.info(f'Finished {len(subjects)} subjects.')
