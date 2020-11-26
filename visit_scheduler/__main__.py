@@ -5,7 +5,7 @@ from visit_scheduler.scheduler import VisitScheduler
 
 
 async def run_scheduler():
-    async with VisitScheduler(interval=60) as scheduler:
+    async with VisitScheduler(interval=15) as scheduler:
         await scheduler.run()
 
 
