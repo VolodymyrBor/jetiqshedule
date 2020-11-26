@@ -3,6 +3,7 @@ from typing import Union
 
 from selenium.webdriver import Chrome, Firefox, Safari
 
+import logger
 from ..webdrivers import get_chrome
 
 
@@ -13,17 +14,21 @@ class BasePage:
                  wait: float = 30):
 
         self.url = url
+        self.logger.info('Browser initializing.')
         self.browser = browser or get_chrome()
         self.browser.implicitly_wait(wait)
+        self.logger = logger.get_logger(f'{type(self).__name__}')
 
     def open(self):
+        self.logger.info(f'Opening page: {self.url}')
         self.browser.get(self.url)
 
-    @staticmethod
-    def wait(time_: float):
+    def wait(self, time_: float):
+        self.logger.debug(f'Wait on {time_}s...')
         time.sleep(time_)
 
     def close(self):
+        self.logger.info('Closing browser.')
         self.browser.close()
 
     def __enter__(self):
