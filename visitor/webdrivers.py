@@ -28,6 +28,7 @@ def get_chrome(load: bool = True) -> webdriver.Chrome:
     chrome = webdriver.Chrome(
         desired_capabilities=cap,
         executable_path=CHROMEDRIVER_PATH,
+        options=options,
     )
 
     return chrome
