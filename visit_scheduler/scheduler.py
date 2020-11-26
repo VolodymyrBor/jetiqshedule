@@ -20,7 +20,7 @@ class VisitScheduler:
         self.logger.info('Scheduler started.')
         while True:
             try:
-                self.logger.info('pinging db for new visit...')
+                self.logger.debug('pinging db for new visit...')
                 await self.ping()
                 time.sleep(self.interval)
             except (InterruptedError, KeyboardInterrupt):
@@ -30,7 +30,10 @@ class VisitScheduler:
     async def ping(self):
         now = datetime.datetime.now()
         visits = await self._get_lessons(now)
-        self.logger.info(f'Got {len(visits)} visits that needs to do.')
+
+        if visits:
+            self.logger.info(f'Got {len(visits)} visits that needs to do.')
+
         for visit in visits:
             visit.status = VisitStatuses.RUNNING
             await visit.save()
