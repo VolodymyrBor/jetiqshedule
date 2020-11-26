@@ -36,6 +36,7 @@ class VisitScheduler:
 
         for visit in visits:
             visit.status = VisitStatuses.RUNNING
+            visit.visit_start = datetime.datetime.now()
             await visit.save()
 
             subject = await visit.lesson.subject
