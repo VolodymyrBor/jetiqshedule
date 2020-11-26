@@ -50,6 +50,6 @@ class Visitor:
         for url, subject in zip(subjects_urls, subjects):
             subject_page = pages.SubjectPage(browser=browser, url=url, wait=1)
             subject_page.open()
-            subject_page.wait(0.5)
+            subject_page.wait(1)
             subject_page.open_meeting(subject)
             subject_page.wait(2)
