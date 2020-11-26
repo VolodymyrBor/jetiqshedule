@@ -1,6 +1,8 @@
+from typing import List
+
 from . import schemes
-from lesson_schedule import crud as lesson_crud
 from visit_scheduler import models, enums
+from lesson_schedule import crud as lesson_crud
 
 
 async def create_visit_for_lesson(lesson_visit: schemes.LessonVisit) -> models.ScheduledVisit:
@@ -14,4 +16,24 @@ async def create_visit_for_lesson(lesson_visit: schemes.LessonVisit) -> models.S
         password=lesson_visit.password,
         status=enums.VisitStatuses.CREATED,
     )
+    return visit
+
+
+async def create_visits(visit_data: schemes.Visit, weekday=None, week_slug: str = None) -> List[models.ScheduledVisit]:
+    lessons = await lesson_crud.get_lessons(weekday, week_slug)
+    visits = [
+        await models.ScheduledVisit.create(
+            date=visit_data.date,
+            lesson=lesson,
+            login=visit_data.login,
+            password=visit_data.password,
+            status=enums.VisitStatuses.CREATED,
+        )
+        for lesson in lessons
+    ]
+    return visits
+
+
+async def get_visit(visit_id) -> models.ScheduledVisit:
+    visit = await models.ScheduledVisit.get(id=visit_id).prefetch_related('lesson', 'lesson__subject')
     return visit

@@ -6,14 +6,14 @@ from visit_scheduler.enums import VisitStatuses
 from pydantic import BaseModel
 
 
-class BaseVisit(BaseModel):
+class Visit(BaseModel):
     login: str
     password: str
-
-
-class LessonVisit(BaseVisit):
-    lesson_id: int
     date: datetime.date = datetime.datetime.now().date()
+
+
+class LessonVisit(Visit):
+    lesson_id: int
 
 
 class VisitInfo(BaseModel):
