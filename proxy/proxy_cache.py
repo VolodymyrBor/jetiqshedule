@@ -25,10 +25,11 @@ class ProxyCache:
 
         proxy = random.choice(list(self.works_proxies))
         if self.check_proxy(proxy):
-            self.logger.info('Provided proxy.')
+            self.logger.info(f'Provided proxy: {proxy!r}.')
             return proxy
         else:
             self.works_proxies.remove(proxy)
+            self.logger.warning(f'Proxy: {proxy!r} is bad.')
 
         self.logger.warning('Proxy is bad, will try another.')
         return self.get_proxy()
@@ -38,13 +39,8 @@ class ProxyCache:
             proxies = self.proxy_fetcher.get(limit)
         except errors.ProxyError as err:
             raise ProxyError(err)
-        ok_proxies = [proxy for proxy in proxies if self.check_proxy(proxy)]
-        self.logger.info(f'Fetched new proxies, {len(ok_proxies)}/{len(proxies)} are ok.')
-        self.works_proxies.update(ok_proxies)
-
-        if not self.works_proxies:
-            self.logger.warning('All Fetched proxies were bad. Try again.')
-            self.get_proxy()
+        self.logger.info(f'Fetched {len(proxies)} new proxies.')
+        self.works_proxies.update(proxies)
 
     @staticmethod
     def check_proxy(proxy: str) -> bool:
