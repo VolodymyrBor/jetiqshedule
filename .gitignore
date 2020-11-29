@@ -1,0 +1,23 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Python template
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+__pypackages__/
+
+
+# Environments
+venv/
+
+# PyCharm
+.idea/
+
+# config files
+configs/*.yaml
+!configs/base.yaml
+!configs/demo.yaml
