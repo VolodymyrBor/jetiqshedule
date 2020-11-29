@@ -13,11 +13,17 @@ app.include_router(visit_router, prefix='/visit')
 
 @app.on_event('startup')
 async def startup():
+    """
+    Setup connection to databases.
+    """
     await sqlite.setup()
 
 
 @app.on_event('shutdown')
 async def shutdown():
+    """
+    Shutdown connection to databases.
+    """
     await sqlite.shutdown()
 
 

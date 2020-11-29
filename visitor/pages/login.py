@@ -5,6 +5,9 @@ from ..locators import LoginLocators
 class LoginPage(BasePage):
 
     def login(self, username: str, password: str):
+        """
+        Login user in login page of jetiq.
+        """
         self.logger.debug(f'Login {username}')
 
         login_input = self.browser.find_element(*LoginLocators.LOGIN_NAME)

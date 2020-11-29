@@ -8,7 +8,9 @@ from lesson_schedule.schemes import Subject
 class SubjectPage(BasePage):
 
     def open_meeting(self, subject: Subject):
-
+        """
+        Open MEET for subject.
+        """
         if not subject.meet_url_name:
             self.logger.warning(f"Failed open meet for subject. Subject {subject.name!r} doesn't have 'meet_url_name'")
             return

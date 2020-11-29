@@ -8,7 +8,9 @@ from ..webdrivers import get_chrome
 
 
 class BasePage:
-
+    """
+    Base class for any page.
+    """
     def __init__(self, url: str,
                  browser: Union[Chrome, Firefox, Safari] = None,
                  wait: float = 30):
@@ -21,14 +23,24 @@ class BasePage:
             self.logger.info('Browser was created.')
 
     def open(self):
+        """
+        Open page.
+        """
         self.logger.debug(f'Opening page: {self.url}')
         self.browser.get(self.url)
 
     def wait(self, time_: float):
+        """
+        Wait some time.
+        :param time_: time in seconds.
+        """
         self.logger.debug(f'Waiting on {time_}s...')
         time.sleep(time_)
 
     def close(self):
+        """
+        Close browser.
+        """
         self.logger.info('Closing browser.')
         self.browser.close()
 
