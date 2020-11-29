@@ -26,3 +26,6 @@ configs/*.yaml
 databases/db.sqlite3
 databases/db.sqlite3-shm
 databases/db.sqlite3-wal
+
+# wedrivers
+visitor/drivers/chromedriver
