@@ -12,7 +12,8 @@ class Visitor:
     Goes to subject's pages and and open meet.
     """
 
-    def __init__(self, username: str, password: str):
+    def __init__(self, username: str, password: str, headless: bool = False):
+        self.headless = headless
         self.password = password
         self.username = username
         self.logger = logger.get_logger('Visitor')
@@ -23,7 +24,7 @@ class Visitor:
         :param subjects: subjects that will be visited.
         """
         subjects = tuple(subjects)
-        browser = get_chrome(load=False)
+        browser = get_chrome(load=False, headless=self.headless)
         self.logger.info(f'Start visiting of {len(subjects)} subjects.')
         try:
             self._visit_subjects(subjects, browser)

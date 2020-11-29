@@ -14,12 +14,12 @@ class MaterialPage(BasePage):
         """
         self.logger.debug('Finding subjects urls.')
         all_rows = self.browser.find_elements(*MaterialLocators.SUBJECT_ROW)
-        subjects = {(s.name, s.teacher) for s in subjects}
+        subjects = {(s.name.strip('. '), s.teacher.strip('. ')) for s in subjects}
         subjects_urls = []
         for subject in all_rows:
             name: str = subject.find_element(*MaterialLocators.SUBJECT_NAME).text
             teacher: str = subject.find_element(*MaterialLocators.SUBJECT_TEACHER).text
-            if (name.strip('.'), teacher.strip()) in subjects:
+            if (name.strip('. '), teacher.strip('. ')) in subjects:
                 url = subject.find_element(*MaterialLocators.SUBJECT_NAME).get_attribute('href')
                 subjects_urls.append(url)
 

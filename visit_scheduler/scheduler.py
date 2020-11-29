@@ -14,7 +14,8 @@ from visit_scheduler.models import ScheduledVisit
 
 class VisitScheduler:
 
-    def __init__(self, interval: float = 1):
+    def __init__(self, interval: float = 1, headless: bool = False):
+        self.headless = headless
         self.interval = interval
         self.logger = logging.getLogger(f'{LOG_BASE_NAME}.VisitScheduler')
 
@@ -53,6 +54,7 @@ class VisitScheduler:
                 visitor = Visitor(
                     password=visit.password,
                     username=visit.login,
+                    headless=self.headless,
                 )
                 visitor.run([subject])
             except WebDriverException as err:

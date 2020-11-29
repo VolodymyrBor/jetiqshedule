@@ -4,7 +4,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from .drivers import CHROMEDRIVER_PATH
 
 
-def get_chrome(load: bool = True) -> webdriver.Chrome:
+def get_chrome(load: bool = True, headless: bool = True) -> webdriver.Chrome:
     """
     Create a chrome webdriver
     :return: chrome browser
@@ -14,8 +14,10 @@ def get_chrome(load: bool = True) -> webdriver.Chrome:
         cap['pageLoadStrategy'] = 'none'
 
     options = webdriver.ChromeOptions()
-    options.add_argument('--headless')
-    options.add_argument('--disable-gpu')
+    if headless:
+        options.add_argument('--headless')
+        options.add_argument('--disable-gpu')
+        options.add_argument('--no-sandbox')
 
     chrome = webdriver.Chrome(
         desired_capabilities=cap,
