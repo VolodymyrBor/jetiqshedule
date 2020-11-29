@@ -2,7 +2,7 @@ from pathlib import Path
 
 import yaml
 
-from .schmes import Config, BaseConfig
+from .schmes import Config, BaseConfig, FastAPI, Scheduler
 
 
 CONFIG_DIR = Path(__file__).parent
@@ -27,6 +27,24 @@ def get_config(config_path=None) -> BaseConfig:
 
     extra_config = Config(**yaml.safe_load(config_path.read_text()))
 
-    base_data = base_config.dict()
-    extra_data = extra_config.dict(exclude_none=True)
-    return Config(**base_data, **extra_data)
+    fastapi_data = {
+        **base_config.FAST_API.dict(exclude_none=True),
+        **extra_config.FAST_API.dict(exclude_none=True),
+    }
+
+    scheduler_data = {
+        **base_config.SCHEDULER.dict(exclude_none=True),
+        **extra_config.SCHEDULER.dict(exclude_none=True),
+    }
+
+    fastapi_conf = FastAPI(**fastapi_data)
+    scheduler_conf = Scheduler(**scheduler_data)
+
+    config_data = {
+        **base_config.dict(exclude_none=True),
+        **extra_config.dict(exclude_none=True),
+        'FAST_API': fastapi_conf,
+        'SCHEDULER': scheduler_conf,
+    }
+
+    return Config(**config_data)

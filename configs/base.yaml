@@ -3,7 +3,7 @@ LOG_LEVEL: DEBUG
 
 FAST_API:
   HOST: 127.0.0.1
-  PORT: 8001
+  PORT: 8000
   RELOAD: true
 
 

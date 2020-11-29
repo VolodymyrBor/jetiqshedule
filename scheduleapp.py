@@ -1,3 +1,4 @@
+import fire
 import uvicorn
 from fastapi import FastAPI
 
@@ -28,11 +29,15 @@ async def shutdown():
     await sqlite.shutdown()
 
 
-if __name__ == '__main__':
-    config = get_config()
+def runserver(config_path=None):
+    config = get_config(config_path)
     uvicorn.run(
         app='scheduleapp:app',
         reload=config.FAST_API.RELOAD,
         port=config.FAST_API.PORT,
         host=str(config.FAST_API.HOST),
     )
+
+
+if __name__ == '__main__':
+    fire.Fire(runserver)

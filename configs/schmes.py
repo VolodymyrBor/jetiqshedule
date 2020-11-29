@@ -46,8 +46,19 @@ class BaseConfig(BaseModel):
     SCHEDULER: Scheduler
 
 
+class FastAPIUpdate(FastAPI):
+    HOST: IPv4Address = None
+    PORT: int = None
+    RELOAD: bool = None
+
+
+class SchedulerUpdate(Scheduler):
+    BROWSER_HEADLESS: bool = None
+    INTERVAL: float = None
+
+
 class Config(BaseConfig):
     LOG_ROOT_LEVEL: LoggingLevel = None
     LOG_LEVEL: LoggingLevel = None
-    FAST_API: FastAPI = None
-    SCHEDULER: Scheduler = None
+    FAST_API: FastAPIUpdate = FastAPIUpdate()
+    SCHEDULER: SchedulerUpdate = SchedulerUpdate()
