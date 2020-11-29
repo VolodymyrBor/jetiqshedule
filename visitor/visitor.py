@@ -24,7 +24,7 @@ class Visitor:
         :param subjects: subjects that will be visited.
         """
         subjects = tuple(subjects)
-        browser = get_chrome(load=False)
+        browser = get_chrome(load=False, headless=self.headless)
         self.logger.info(f'Start visiting of {len(subjects)} subjects.')
         try:
             self._visit_subjects(subjects, browser)
