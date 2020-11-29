@@ -1,12 +1,12 @@
 import io
 import logging
 import zipfile
+from pathlib import Path
 
 import requests
 from yarl import URL
 from invoke import sudo
 from fabric import task, Connection
-from pathlib import Path
 
 from configs import CONFIG_DIR
 from visitor.drivers import DRIVERS_DIR, CHROMEDRIVER_PATH
@@ -29,6 +29,7 @@ CONF_IN_TMP = TMP_DIR / CONFIG_FILENAME
 logging.basicConfig(level='INFO')
 log = logging.getLogger('fab')
 
+
 @task
 def downland_chrome(_):
     driver_url = CHROME_DRIVER_URL.with_path(CHROME_VERSION) / f'chromedriver_{CHROME_PLATFORM}.zip'
@@ -42,6 +43,7 @@ def downland_chrome(_):
         sudo(f'chmod +x {CHROMEDRIVER_PATH}')
 
     print('Chrome had downloaded.')
+
 
 @task()
 def upload_config(_):
