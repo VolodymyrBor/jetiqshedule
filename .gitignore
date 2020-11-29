@@ -21,3 +21,8 @@ venv/
 configs/*.yaml
 !configs/base.yaml
 !configs/demo.yaml
+
+#db
+databases/db.sqlite3
+databases/db.sqlite3-shm
+databases/db.sqlite3-wal
