@@ -2,6 +2,7 @@ import uvicorn
 from fastapi import FastAPI
 
 from databases import sqlite
+from configs import get_config
 from visit_api.routs import visit_router
 from lesson_schedule.route import schedule
 
@@ -28,4 +29,10 @@ async def shutdown():
 
 
 if __name__ == '__main__':
-    uvicorn.run('scheduleapp:app', reload=True, port=8001)
+    config = get_config()
+    uvicorn.run(
+        app='scheduleapp:app',
+        reload=config.FAST_API.RELOAD,
+        port=config.FAST_API.PORT,
+        host=str(config.FAST_API.HOST),
+    )

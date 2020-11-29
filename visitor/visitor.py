@@ -12,7 +12,8 @@ class Visitor:
     Goes to subject's pages and and open meet.
     """
 
-    def __init__(self, username: str, password: str):
+    def __init__(self, username: str, password: str, headless: bool = False):
+        self.headless = headless
         self.password = password
         self.username = username
         self.logger = logger.get_logger('Visitor')
