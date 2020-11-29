@@ -8,6 +8,10 @@ from lesson_schedule.schemes import Subject
 class MaterialPage(BasePage):
 
     def get_subjects_urls(self, subjects: Iterable[Subject]) -> List[str]:
+        """
+        Extract subjects urls from material pages.
+        :return: list of urls
+        """
         self.logger.debug('Finding subjects urls.')
         all_rows = self.browser.find_elements(*MaterialLocators.SUBJECT_ROW)
         subjects = {(s.name, s.teacher) for s in subjects}

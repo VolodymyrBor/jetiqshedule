@@ -18,6 +18,10 @@ class Visitor:
         self.logger = logger.get_logger('Visitor')
 
     def run(self, subjects: Iterable[Subject]):
+        """
+        Run visits for subjects.
+        :param subjects: subjects that will be visited.
+        """
         subjects = tuple(subjects)
         browser = get_chrome(load=False)
         self.logger.info(f'Start visiting of {len(subjects)} subjects.')
