@@ -19,6 +19,9 @@ class VisitScheduler:
         self.logger = logging.getLogger(f'{LOG_BASE_NAME}.VisitScheduler')
 
     async def run(self):
+        """
+        Run scheduler in inf loop.
+        """
         self.logger.info('Scheduler started.')
         while True:
             try:
@@ -30,8 +33,11 @@ class VisitScheduler:
         self.logger.info('Scheduler stopped.')
 
     async def ping(self):
+        """
+        Check in database fro  scheduled visit in current time.
+        """
         now = datetime.datetime.now()
-        visits = await self._get_lessons(now)
+        visits = await self._get_visits(now)
 
         if visits:
             self.logger.info(f'Got {len(visits)} visits that needs to do.')
@@ -60,7 +66,7 @@ class VisitScheduler:
             await visit.save()
 
     @staticmethod
-    async def _get_lessons(before: datetime.datetime) -> List[ScheduledVisit]:
+    async def _get_visits(before: datetime.datetime) -> List[ScheduledVisit]:
         lessons = ScheduledVisit.filter(date__lte=before.date())
         lessons = await lessons.prefetch_related('lesson')
         return [
