@@ -17,6 +17,7 @@ def get_chrome(load: bool = True, headless: bool = True) -> webdriver.Chrome:
     if headless:
         options.add_argument('--headless')
         options.add_argument('--disable-gpu')
+        options.add_argument('--no-sandbox')
 
     chrome = webdriver.Chrome(
         desired_capabilities=cap,
