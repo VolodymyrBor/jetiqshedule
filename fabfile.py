@@ -45,7 +45,7 @@ def downland_chrome(_):
     print('Chrome had downloaded.')
 
 
-@task()
+@task
 def upload_config(_):
     if not LOCAl_CONFIG_FILE.exists():
         raise FileNotFoundError(f'Config file: {LOCAl_CONFIG_FILE} not found.')
