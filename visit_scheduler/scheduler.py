@@ -1,23 +1,25 @@
 import time
-import logging
+import pytz
 import datetime
 from typing import List
 
 from selenium.common.exceptions import WebDriverException
 
+import logger
 from databases import sqlite
 from .enums import VisitStatuses
-from logger import LOG_BASE_NAME
 from visitor.visitor import Visitor
+from configs.schmes import Scheduler
 from visit_scheduler.models import ScheduledVisit
 
 
 class VisitScheduler:
 
-    def __init__(self, interval: float = 1, headless: bool = False):
-        self.headless = headless
-        self.interval = interval
-        self.logger = logging.getLogger(f'{LOG_BASE_NAME}.VisitScheduler')
+    def __init__(self, config: Scheduler):
+        self.headless = config.BROWSER_HEADLESS
+        self.interval = config.INTERVAL
+        self.tz = pytz.timezone(config.TIME_ZONE.value)
+        self.logger = logger.get_logger('VisitScheduler')
 
     async def run(self):
         """
@@ -37,7 +39,7 @@ class VisitScheduler:
         """
         Check in database fro  scheduled visit in current time.
         """
-        now = datetime.datetime.now()
+        now = datetime.datetime.now(tz=self.tz)
         visits = await self._get_visits(now)
 
         if visits:
@@ -45,7 +47,7 @@ class VisitScheduler:
 
         for visit in visits:
             visit.status = VisitStatuses.RUNNING
-            visit.visit_start = datetime.datetime.now()
+            visit.visit_start = datetime.datetime.now(tz=self.tz)
             await visit.save()
 
             subject = await visit.lesson.subject
@@ -64,7 +66,7 @@ class VisitScheduler:
             else:
                 visit.status = VisitStatuses.SUCCESSFUL
 
-            visit.visit_finish = datetime.datetime.now()
+            visit.visit_finish = datetime.datetime.now(tz=self.tz)
             await visit.save()
 
     @staticmethod
