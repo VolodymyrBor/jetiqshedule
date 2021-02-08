@@ -1,6 +1,5 @@
 import datetime
 
-from lesson_schedule.schemes import LessonInDB
 from visit_scheduler.enums import VisitStatuses
 
 from pydantic import BaseModel
@@ -19,7 +18,7 @@ class LessonVisit(Visit):
 class VisitInfo(BaseModel):
     id: int
     date: datetime.date
-    lesson: LessonInDB
+    lesson_id: int
     status: VisitStatuses
     error_message: str = None
     visit_start: datetime.datetime = None
