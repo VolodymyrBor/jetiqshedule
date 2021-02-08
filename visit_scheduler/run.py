@@ -1,7 +1,7 @@
 import asyncio
 
-from logger import logger_configure
 from configs.schmes import Config
+from shared.logger import logger_configure
 from visit_scheduler.scheduler import VisitScheduler
 
 

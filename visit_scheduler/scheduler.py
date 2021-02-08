@@ -5,7 +5,7 @@ from typing import List
 
 from selenium.common.exceptions import WebDriverException
 
-import logger
+from shared import logger
 from databases import sqlite
 from .enums import VisitStatuses
 from visitor.visitor import Visitor

@@ -4,8 +4,7 @@ from fastapi import APIRouter
 
 from . import crud, schemes
 from lesson_schedule.enums import WeekDays
-from lesson_schedule import crud as lesson_crud
-
+from shared.shemes import StatusResponse, Statuses
 
 visit_router = APIRouter()
 tags = ['visit']
@@ -33,3 +32,9 @@ async def get_visit(visit_id: int):
 async def get_visit(login: str):
     visits = await crud.get_visits(login)
     return visits
+
+
+@visit_router.delete('/visit_status/{visit_id}', response_model=StatusResponse, tags=tags)
+async def get_visit(visit_id: int):
+    await crud.delete_visit(visit_id)
+    return StatusResponse(status=Statuses.OK)
