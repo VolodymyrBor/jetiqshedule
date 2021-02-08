@@ -14,6 +14,11 @@ class LoggingLevel(str, Enum):
     NOTSET = 'NOTSET'
 
 
+class TimeZones(str, Enum):
+    UTC = 'UTC'
+    UA = 'Europe/Kiev'
+
+
 class FastAPI(BaseModel):
     HOST: IPv4Address
     PORT: int
@@ -30,6 +35,7 @@ class FastAPI(BaseModel):
 class Scheduler(BaseModel):
     BROWSER_HEADLESS: bool
     INTERVAL: float
+    TIME_ZONE: TimeZones = TimeZones.UTC
 
     @validator('INTERVAL')
     def interval_validator(cls, interval: float) -> float:
@@ -55,6 +61,7 @@ class FastAPIUpdate(FastAPI):
 class SchedulerUpdate(Scheduler):
     BROWSER_HEADLESS: bool = None
     INTERVAL: float = None
+    TIME_ZONE: TimeZones = None
 
 
 class Config(BaseConfig):
