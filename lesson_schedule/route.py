@@ -3,6 +3,7 @@ from typing import List
 from fastapi import APIRouter, status
 
 from . import crud, enums
+from shared.shemes import Statuses, StatusResponse
 from .schemes import Subject, SubjectUpdate, Lesson, LessonInDB, LessonUpdate
 
 
@@ -24,12 +25,10 @@ async def get_subject(name: str):
     return await crud.get_subject(name)
 
 
-@schedule.delete('/subject/{name}', tags=['subjects'])
+@schedule.delete('/subject/{name}', tags=['subjects'], response_model=StatusResponse)
 async def delete_subject(name: str):
     await crud.delete_subject(name)
-    return {
-        'message': 'successfully'
-    }
+    return StatusResponse(status=Statuses.OK)
 
 
 @schedule.patch('/subject/{name}', response_model=Subject, tags=['subjects'])
@@ -56,12 +55,10 @@ async def create_lesson(lesson: Lesson):
     return await crud.create_lesson(lesson)
 
 
-@schedule.delete('/lesson/{lesson_id}', tags=['lessons'])
+@schedule.delete('/lesson/{lesson_id}', tags=['lessons'], response_model=StatusResponse)
 async def delete_lesson(lesson_id: int):
     await crud.delete_lesson(lesson_id)
-    return {
-        'message': 'lesson deleted successfully',
-    }
+    return StatusResponse(status=Statuses.OK)
 
 
 @schedule.patch('/lesson/{lesson_id}', response_model=LessonInDB, tags=['lessons'])

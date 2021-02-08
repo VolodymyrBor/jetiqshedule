@@ -34,7 +34,7 @@ async def create_visits(visit_data: schemes.Visit, weekday=None, week_slug: str 
     return visits
 
 
-async def get_visit(visit_id) -> models.ScheduledVisit:
+async def get_visit(visit_id: int) -> models.ScheduledVisit:
     visit = await models.ScheduledVisit.get(id=visit_id).prefetch_related('lesson', 'lesson__subject')
     return visit
 
@@ -42,3 +42,8 @@ async def get_visit(visit_id) -> models.ScheduledVisit:
 async def get_visits(login: str) -> List[models.ScheduledVisit]:
     visits = await models.ScheduledVisit.filter(login=login)
     return visits
+
+
+async def delete_visit(visit_id: int):
+    visit = await models.ScheduledVisit.get(id=visit_id)
+    await visit.delete()
