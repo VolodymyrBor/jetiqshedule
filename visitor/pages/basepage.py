@@ -3,7 +3,7 @@ from typing import Union
 
 from selenium.webdriver import Chrome, Firefox, Safari
 
-import logger
+from shared import logger
 from ..webdrivers import get_chrome
 
 

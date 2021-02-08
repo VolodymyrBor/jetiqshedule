@@ -1,6 +1,6 @@
 from typing import Iterable
 
-import logger
+from shared import logger
 from . import pages
 from .locators import URLS
 from .webdrivers import get_chrome
