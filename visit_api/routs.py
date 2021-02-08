@@ -27,3 +27,9 @@ async def visit_lessons(visit_data: schemes.Visit, weekday: WeekDays = None, wee
 async def get_visit(visit_id: int):
     visit = await crud.get_visit(visit_id)
     return visit
+
+
+@visit_router.get('/visit_status/user/{login}', response_model=List[schemes.VisitInfo], tags=tags)
+async def get_visit(login: str):
+    visits = await crud.get_visits(login)
+    return visits
