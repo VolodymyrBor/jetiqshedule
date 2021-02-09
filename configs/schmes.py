@@ -69,3 +69,11 @@ class Config(BaseConfig):
     LOG_LEVEL: LoggingLevel = None
     FAST_API: FastAPIUpdate = FastAPIUpdate()
     SCHEDULER: SchedulerUpdate = SchedulerUpdate()
+
+
+class MySQLConfig(BaseModel):
+    HOST: str = 'localhost'
+    PORT: int = 3306
+    USERNAME: str = 'root'
+    PASSWORD: str = 'root'
+    DATABASE: str = 'dev'

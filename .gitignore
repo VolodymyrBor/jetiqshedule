@@ -28,4 +28,4 @@ databases/db.sqlite3-shm
 databases/db.sqlite3-wal
 
 # wedrivers
-visitor/drivers/chromedriver
+visit_scheduler/visitor/drivers/chromedriver
