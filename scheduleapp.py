@@ -2,7 +2,7 @@ import fire
 import uvicorn
 from fastapi import FastAPI
 
-from databases import sqlite
+from databases import mysql
 from configs import get_config
 from visit_api.routs import visit_router
 from lesson_schedule.route import schedule
@@ -18,7 +18,7 @@ async def startup():
     """
     Setup connection to databases.
     """
-    await sqlite.setup()
+    await mysql.setup()
 
 
 @app.on_event('shutdown')
@@ -26,7 +26,7 @@ async def shutdown():
     """
     Shutdown connection to databases.
     """
-    await sqlite.shutdown()
+    await mysql.shutdown()
 
 
 def runserver(config_path=None):

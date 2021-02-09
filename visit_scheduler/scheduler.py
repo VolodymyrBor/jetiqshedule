@@ -6,7 +6,7 @@ from typing import List
 from selenium.common.exceptions import WebDriverException
 
 from shared import logger
-from databases import sqlite
+from databases import mysql
 from .enums import VisitStatuses
 from visitor.visitor import Visitor
 from configs.schmes import Scheduler
@@ -80,11 +80,11 @@ class VisitScheduler:
 
     async def connect(self):
         self.logger.info('Connecting to db...')
-        await sqlite.setup()
+        await mysql.setup()
 
     async def close(self):
         self.logger.info('Disconnecting db...')
-        await sqlite.shutdown()
+        await mysql.shutdown()
 
     async def __aenter__(self):
         await self.connect()

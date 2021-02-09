@@ -2,11 +2,12 @@ from pathlib import Path
 
 import yaml
 
-from .schmes import Config, BaseConfig, FastAPI, Scheduler
+from .schmes import Config, BaseConfig, FastAPI, Scheduler, MySQLConfig
 
 
 CONFIG_DIR = Path(__file__).parent
 BASE_CONFIG = CONFIG_DIR / 'base.yaml'
+MYSQL_CONFIG_FILE = CONFIG_DIR / 'mysql.yaml'
 
 
 def get_config(config_path=None) -> BaseConfig:
@@ -48,3 +49,8 @@ def get_config(config_path=None) -> BaseConfig:
     }
 
     return Config(**config_data)
+
+
+def get_db_config() -> MySQLConfig:
+    config = MySQLConfig(**yaml.safe_load(MYSQL_CONFIG_FILE.read_text()))
+    return config
