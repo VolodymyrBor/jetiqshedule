@@ -9,8 +9,7 @@ from invoke import sudo
 from fabric import task, Connection
 
 from configs import CONFIG_DIR
-from visitor.drivers import DRIVERS_DIR, CHROMEDRIVER_PATH
-
+from visit_scheduler.visitor.drivers import DRIVERS_DIR, CHROMEDRIVER_PATH
 
 CHROME_PLATFORM = 'linux64'
 CHROME_VERSION = '86.0.4240.22'

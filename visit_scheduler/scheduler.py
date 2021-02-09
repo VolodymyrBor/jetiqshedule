@@ -8,8 +8,8 @@ from selenium.common.exceptions import WebDriverException
 from shared import logger
 from databases import mysql
 from .enums import VisitStatuses
-from visitor.visitor import Visitor
 from configs.schmes import Scheduler
+from visit_scheduler.visitor import Visitor
 from visit_scheduler.models import ScheduledVisit
 
 
