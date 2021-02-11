@@ -1,6 +1,7 @@
 from typing import List
 
-from fastapi import APIRouter, status
+from tortoise.exceptions import IntegrityError
+from fastapi import APIRouter, status, HTTPException
 
 from . import crud, enums
 from shared.shemes import Statuses, StatusResponse
@@ -17,7 +18,16 @@ async def get_all_subjects():
 
 @schedule.put('/subject', response_model=Subject, tags=['subjects'], status_code=status.HTTP_201_CREATED)
 async def create_subject(subject: Subject):
-    return await crud.create_subject(subject)
+
+    try:
+        created_subject = await crud.create_subject(subject)
+    except IntegrityError:
+        raise HTTPException(
+            status.HTTP_409_CONFLICT,
+            f'Subject with name {subject.name!r} already exists.'
+        )
+
+    return created_subject
 
 
 @schedule.get('/subject/{name}', response_model=Subject, tags=['subjects'])
