@@ -1,6 +1,7 @@
 import fire
 import uvicorn
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from databases import mysql
 from configs import get_config
@@ -9,6 +10,21 @@ from lesson_schedule.route import schedule
 
 
 app = FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://localhost:4200",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 app.include_router(schedule, prefix='/schedule')
 app.include_router(visit_router, prefix='/visit')
 
