@@ -1,9 +1,11 @@
-import datetime
+import datetime as dt
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 from .enums import WeekDays
+
+TIME_FMT = 'HH:MM'
 
 
 class Subject(BaseModel):
@@ -22,13 +24,28 @@ class SubjectUpdate(Subject):
 
 
 class BaseLesson(BaseModel):
-    time: datetime.datetime
+    time: dt.time
     weekday: WeekDays
     week_slug: str
 
+    @validator('time', pre=True)
+    def to_time(cls, value) -> dt.time:
+        if isinstance(value, dt.time):
+            return value
+
+        if isinstance(value, dt.datetime, ):
+            return value.time()
+
+        try:
+            hours, minutes = map(int, value.split(':'))
+            time = dt.time(hour=hours, minute=minutes)
+        except (ValueError, TypeError):
+            raise ValueError(f'Bad format for {value}, expect format: {TIME_FMT}')
+
+        return time
+
 
 class Lesson(BaseLesson):
-    time: datetime.time
     subject_name: str
 
     class Config:
@@ -44,7 +61,7 @@ class LessonInDB(BaseLesson):
 
 
 class LessonUpdate(Lesson):
-    time: datetime.time = None
+    time: dt.time = None
     subject_name: str = None
     weekday: WeekDays = None
     week_slug: str = None
