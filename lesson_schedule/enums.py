@@ -5,5 +5,5 @@ class WeekDays(str, Enum):
     MONDAY = 'monday'
     TUESDAY = 'tuesday'
     WEDNESDAY = 'wednesday'
-    thursday = 'thursday'
-    friday = 'friday'
+    THURSDAY = 'thursday'
+    FRIDAY = 'friday'

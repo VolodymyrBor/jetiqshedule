@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `subject` (
 CREATE TABLE IF NOT EXISTS `lesson` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `time` DATETIME(6) NOT NULL,
-    `weekday` VARCHAR(9) NOT NULL  COMMENT 'MONDAY: monday\nTUESDAY: tuesday\nWEDNESDAY: wednesday\nthursday: thursday\nfriday: friday',
+    `weekday` VARCHAR(9) NOT NULL  COMMENT 'MONDAY: monday\nTUESDAY: tuesday\nWEDNESDAY: wednesday\nTHURSDAY: THURSDAY\nFRIDAY: FRIDAY',
     `week_slug` VARCHAR(200) NOT NULL,
     `subject_id` INT NOT NULL,
     CONSTRAINT `fk_lesson_subject_8aecf416` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON DELETE CASCADE
