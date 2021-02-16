@@ -39,9 +39,13 @@ async def get_visit(visit_id: int) -> models.ScheduledVisit:
     return visit
 
 
-async def get_visits(login: str) -> List[models.ScheduledVisit]:
-    visits = await models.ScheduledVisit.filter(login=login)
-    return visits
+async def get_visits(login: str, lesson_id: int = None) -> List[models.ScheduledVisit]:
+    visits_query = models.ScheduledVisit.filter(login=login)
+
+    if lesson_id:
+        visits_query = visits_query.filter(lesson_id=lesson_id)
+
+    return await visits_query
 
 
 async def delete_visit(visit_id: int):

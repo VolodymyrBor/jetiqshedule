@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from fastapi import APIRouter
 
@@ -28,13 +28,13 @@ async def get_visit(visit_id: int):
     return visit
 
 
-@visit_router.get('/visit_status/user/{login}', response_model=List[schemes.VisitInfo], tags=tags)
-async def get_visit(login: str):
-    visits = await crud.get_visits(login)
+@visit_router.get('/visit_statuses/{login}', response_model=List[schemes.VisitInfo], tags=tags)
+async def get_visit(login: str, lesson_id: Optional[int] = None):
+    visits = await crud.get_visits(login, lesson_id)
     return visits
 
 
 @visit_router.delete('/visit_status/{visit_id}', response_model=StatusResponse, tags=tags)
-async def get_visit(visit_id: int):
+async def delete_visit(visit_id: int):
     await crud.delete_visit(visit_id)
     return StatusResponse(status=Statuses.OK)
