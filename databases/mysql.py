@@ -26,6 +26,10 @@ TORTOISE_ORM = {
             'models': ['visit_scheduler.models'],
             'default_connection': 'mysql',
         },
+        'auth': {
+            'models': ['auth.models'],
+            'default_connection': 'mysql',
+        },
         'aerich': {
             'models': ['aerich.models'],
             'default_connection': 'mysql',

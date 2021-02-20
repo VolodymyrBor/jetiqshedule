@@ -1,4 +1,5 @@
 from pathlib import Path
+from functools import lru_cache
 
 import yaml
 
@@ -10,6 +11,7 @@ BASE_CONFIG = CONFIG_DIR / 'base.yaml'
 MYSQL_CONFIG_FILE = CONFIG_DIR / 'mysql.yaml'
 
 
+@lru_cache()
 def get_config(config_path=None) -> BaseConfig:
     base_config = BaseConfig(**yaml.safe_load(BASE_CONFIG.read_text()))
 
@@ -51,6 +53,7 @@ def get_config(config_path=None) -> BaseConfig:
     return Config(**config_data)
 
 
+@lru_cache()
 def get_db_config() -> MySQLConfig:
     config = MySQLConfig(**yaml.safe_load(MYSQL_CONFIG_FILE.read_text()))
     return config
