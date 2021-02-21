@@ -15,3 +15,4 @@ class ScheduledVisit(BaseModel):
     error_message: str = None
     visit_start: datetime.datetime = None
     visit_finish: datetime.datetime = None
+    owner_id: int

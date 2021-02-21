@@ -8,8 +8,9 @@ from passlib.context import CryptContext
 from tortoise.exceptions import DoesNotExist
 
 from .schemas import Token, TokenType, TokenData
-from lesson_schedule.models import Subject, Lesson
 from .settings import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
+import visit_scheduler
+from lesson_schedule.models import Subject, Lesson
 
 
 class AuthError(Exception):
@@ -91,6 +92,7 @@ class User(models.Model):
 
     lessons: models.QuerySet[Lesson]
     subjects: models.QuerySet[Subject]
+    visits: models.QuerySet['visit_scheduler.models.ScheduledVisit']
 
     username = fields.CharField(max_length=100, unique=True)
     email = fields.CharField(max_length=100, unique=True)
