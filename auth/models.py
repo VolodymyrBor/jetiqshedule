@@ -8,6 +8,7 @@ from passlib.context import CryptContext
 from tortoise.exceptions import DoesNotExist
 
 from .schemas import Token, TokenType, TokenData
+from lesson_schedule.models import Subject, Lesson
 from .settings import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
 
 
@@ -87,6 +88,9 @@ class AuthenticateService:
 
 
 class User(models.Model):
+
+    lessons: models.QuerySet[Lesson]
+    subjects: models.QuerySet[Subject]
 
     username = fields.CharField(max_length=100, unique=True)
     email = fields.CharField(max_length=100, unique=True)

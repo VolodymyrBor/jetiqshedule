@@ -44,7 +44,7 @@ async def get_user(username: str) -> models.User:
     return await crud.get(username)
 
 
-@auth.post('/user', response_model=schemas.User, tags=TAGS)
+@auth.put('/user', response_model=schemas.User, tags=TAGS)
 async def create_user(user: schemas.UserCreate) -> models.User:
     return await crud.create(user)
 

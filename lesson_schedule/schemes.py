@@ -17,10 +17,14 @@ class Subject(BaseModel):
         orm_mode = True
 
 
+class SubjectCreate(Subject):
+    owner_id: int
+
+
 class SubjectUpdate(Subject):
-    name: str = None
-    teacher: str = None
-    meet_url_name: str = None
+    name: Optional[str] = None
+    teacher: Optional[str] = None
+    meet_url_name: Optional[str] = None
 
 
 class BaseLesson(BaseModel):
