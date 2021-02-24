@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Optional
 from ipaddress import IPv4Address
 
 from pydantic import BaseModel, validator
@@ -53,15 +54,15 @@ class BaseConfig(BaseModel):
 
 
 class FastAPIUpdate(FastAPI):
-    HOST: IPv4Address = None
-    PORT: int = None
-    RELOAD: bool = None
+    HOST: Optional[IPv4Address] = None
+    PORT: Optional[int] = None
+    RELOAD: Optional[bool] = None
 
 
 class SchedulerUpdate(Scheduler):
-    BROWSER_HEADLESS: bool = None
-    INTERVAL: float = None
-    TIME_ZONE: TimeZones = None
+    BROWSER_HEADLESS: Optional[bool] = None
+    INTERVAL: Optional[float] = None
+    TIME_ZONE: Optional[TimeZones] = None
 
 
 class Config(BaseConfig):
@@ -77,3 +78,21 @@ class MySQLConfig(BaseModel):
     USERNAME: str = 'root'
     PASSWORD: str = 'root'
     DATABASE: str = 'dev'
+
+
+class JWTAlgorithms(str, Enum):
+    HS256 = 'HS256'
+    HS384 = 'HS384'
+    HS512 = 'HS512'
+    RS256 = 'RS256'
+    RS384 = 'RS384'
+    RS512 = 'RS512'
+    ES256 = 'ES256'
+    ES384 = 'ES384'
+    ES512 = 'ES512'
+
+
+class AuthConfig(BaseModel):
+    SECRET_KEY: str
+    ALGORITHM: JWTAlgorithms
+    ACCESS_TOKEN_EXPIRE_MINUTES: int

@@ -3,12 +3,20 @@ from functools import lru_cache
 
 import yaml
 
-from .schmes import Config, BaseConfig, FastAPI, Scheduler, MySQLConfig
+from .schmes import (
+    Config,
+    BaseConfig,
+    FastAPI,
+    Scheduler,
+    MySQLConfig,
+    AuthConfig,
+)
 
 
 CONFIG_DIR = Path(__file__).parent
 BASE_CONFIG = CONFIG_DIR / 'base.yaml'
 MYSQL_CONFIG_FILE = CONFIG_DIR / 'mysql.yaml'
+AUTH_CONFIG_FILE = CONFIG_DIR / 'auth.yaml'
 
 
 @lru_cache()
@@ -56,4 +64,10 @@ def get_config(config_path=None) -> BaseConfig:
 @lru_cache()
 def get_db_config() -> MySQLConfig:
     config = MySQLConfig(**yaml.safe_load(MYSQL_CONFIG_FILE.read_text()))
+    return config
+
+
+@lru_cache()
+def get_auth_config() -> AuthConfig:
+    config = AuthConfig(**yaml.safe_load(AUTH_CONFIG_FILE.read_text()))
     return config
