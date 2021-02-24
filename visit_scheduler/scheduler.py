@@ -50,12 +50,12 @@ class VisitScheduler:
             visit.visit_start = datetime.datetime.now(tz=self.tz)
             await visit.save()
 
+            owner = await visit.owner
             subject = await visit.lesson.subject
-
             try:
                 visitor = Visitor(
-                    password=visit.password,
-                    username=visit.login,
+                    password=owner.jetiq_password,
+                    username=owner.jetiq_username,
                     headless=self.headless,
                 )
                 visitor.run([subject])

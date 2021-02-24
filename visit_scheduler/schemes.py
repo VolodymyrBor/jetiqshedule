@@ -7,8 +7,6 @@ from lesson_schedule.schemes import LessonInDB
 
 
 class ScheduledVisit(BaseModel):
-    login: str
-    password: str
     lesson: LessonInDB
     status: VisitStatuses
     date: datetime.datetime
