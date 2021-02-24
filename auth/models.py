@@ -90,6 +90,7 @@ class AuthenticateService:
 
 class User(models.Model):
 
+    # relations
     lessons: models.QuerySet[Lesson]
     subjects: models.QuerySet[Subject]
     visits: models.QuerySet['visit_scheduler.models.ScheduledVisit']
@@ -97,9 +98,11 @@ class User(models.Model):
     username = fields.CharField(max_length=100, unique=True)
     email = fields.CharField(max_length=100, unique=True)
     hashed_password = fields.CharField(max_length=512)
+    jetiq_username = fields.CharField(max_length=100)
+    jetiq_password = fields.CharField(max_length=100)
 
-    def __init__(self, username: str, email: str, password: str):
-        super().__init__(username=username, email=email)
+    def __init__(self, username: str, email: str, password: str, jetiq_username: str, jetiq_password: str):
+        super().__init__(username=username, email=email, jetiq_username=jetiq_username, jetiq_password=jetiq_password)
         self.set_password(password)
 
     @property

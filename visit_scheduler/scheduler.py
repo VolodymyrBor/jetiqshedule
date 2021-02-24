@@ -9,7 +9,7 @@ from shared import logger
 from databases import mysql
 from .enums import VisitStatuses
 from configs.schmes import Scheduler
-from visit_scheduler.visitor import Visitor
+from visit_scheduler.visitor import Visitor, VisitorError
 from visit_scheduler.models import ScheduledVisit
 
 
@@ -59,7 +59,7 @@ class VisitScheduler:
                     headless=self.headless,
                 )
                 visitor.run([subject])
-            except WebDriverException as err:
+            except (WebDriverException, VisitorError) as err:
                 self.logger.warning(err)
                 visit.error_message = str(err)
                 visit.status = VisitStatuses.FAILED

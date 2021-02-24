@@ -1,1 +1,1 @@
-from .visitor import Visitor
+from .visitor import Visitor, VisitorError

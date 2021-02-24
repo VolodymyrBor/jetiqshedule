@@ -13,8 +13,8 @@ async def create_visit_for_lesson(lesson_visit: schemes.LessonVisit, owner: User
     visit = await models.ScheduledVisit.create(
         date=lesson_visit.date,
         lesson=lesson,
-        login=lesson_visit.login,
-        password=lesson_visit.password,
+        login=owner.jetiq_username,
+        password=owner.jetiq_password,
         status=enums.VisitStatuses.CREATED,
         owner=owner,
     )
@@ -33,8 +33,8 @@ async def create_visits(
         await models.ScheduledVisit.create(
             date=visit_data.date,
             lesson=lesson,
-            login=visit_data.login,
-            password=visit_data.password,
+            login=owner.jetiq_username,
+            password=owner.jetiq_password,
             status=enums.VisitStatuses.CREATED,
             owner=owner,
         )
@@ -49,8 +49,8 @@ async def get_visit(visit_id: int, owner: User) -> models.ScheduledVisit:
     return visit
 
 
-async def get_visits(login: str, owner: User,  lesson_id: int = None) -> List[models.ScheduledVisit]:
-    visits_query = models.ScheduledVisit.filter(login=login, owner=owner)
+async def get_visits(owner: User,  lesson_id: int = None) -> List[models.ScheduledVisit]:
+    visits_query = models.ScheduledVisit.filter(owner=owner)
 
     if lesson_id:
         visits_query = visits_query.filter(lesson_id=lesson_id)

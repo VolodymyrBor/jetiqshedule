@@ -6,8 +6,6 @@ from pydantic import BaseModel
 
 
 class Visit(BaseModel):
-    login: str
-    password: str
     date: datetime.date = datetime.datetime.now().date()
 
 

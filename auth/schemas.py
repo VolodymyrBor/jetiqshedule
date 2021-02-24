@@ -7,6 +7,7 @@ from pydantic import BaseModel
 class User(BaseModel):
     email: str
     username: str
+    jetiq_username: str
 
     class Config:
         orm_mode = True
@@ -14,12 +15,15 @@ class User(BaseModel):
 
 class UserCreate(User):
     password: str
+    jetiq_password: str
 
 
 class UserUpdate(UserCreate):
     email: Optional[str] = None
     username: Optional[str] = None
     password: Optional[str] = None
+    jetiq_username: Optional[str] = None
+    jetiq_password: Optional[str] = None
 
 
 class UserInDB(User):

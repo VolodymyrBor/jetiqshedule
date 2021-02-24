@@ -34,9 +34,9 @@ async def get_visit(visit_id: int, user: User = Depends(get_current_user)):
     return visit
 
 
-@visit_router.get('/visit_statuses/{login}', response_model=List[schemes.VisitInfo], tags=tags)
-async def get_visit(login: str, lesson_id: Optional[int] = None, user: User = Depends(get_current_user)):
-    visits = await crud.get_visits(login, user, lesson_id)
+@visit_router.get('/visit_statuses/', response_model=List[schemes.VisitInfo], tags=tags)
+async def get_visits(lesson_id: Optional[int] = None, user: User = Depends(get_current_user)):
+    visits = await crud.get_visits(user, lesson_id)
     return visits
 
 

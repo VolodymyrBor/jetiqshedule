@@ -1,5 +1,6 @@
 import datetime as dt
 
+from tortoise import exceptions
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
@@ -39,22 +40,26 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> schemas.Tok
     return access_token
 
 
-@auth.get('/user/{username}', response_model=schemas.User, tags=TAGS)
-async def get_user(username: str) -> models.User:
-    return await crud.get(username)
+@auth.get('/user', response_model=schemas.User, tags=TAGS)
+async def get_user(user: models.User = Depends(get_current_user)) -> models.User:
+    return user
 
 
-@auth.put('/user', response_model=schemas.User, tags=TAGS)
+@auth.put('/register', response_model=schemas.User, tags=TAGS)
 async def create_user(user: schemas.UserCreate) -> models.User:
-    return await crud.create(user)
+    try:
+        user = await crud.create(user)
+    except exceptions.IntegrityError as err:
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, str(err))
+    return user
 
 
-@auth.patch('/user', response_model=schemas.User, tags=TAGS)
+@auth.patch('/update', response_model=schemas.User, tags=TAGS)
 async def update_user(update_data: schemas.UserUpdate, user: models.User = Depends(get_current_user)) -> models.User:
     return await crud.update(user, update_data)
 
 
-@auth.delete('/user', response_model=StatusResponse, tags=TAGS)
+@auth.delete('/delete', response_model=StatusResponse, tags=TAGS)
 async def delete_user(user: models.User = Depends(get_current_user)) -> StatusResponse:
     await user.delete()
     return StatusResponse(status=Statuses.OK)
