@@ -8,9 +8,11 @@ from passlib.context import CryptContext
 from tortoise.exceptions import DoesNotExist
 
 from .schemas import Token, TokenType, TokenData
-from .settings import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
 import visit_scheduler
+from configs import get_auth_config
 from lesson_schedule.models import Subject, Lesson
+
+auth_config = get_auth_config()
 
 
 class AuthError(Exception):
@@ -53,7 +55,11 @@ class AuthenticateService:
         # TODO add expire to token
         # to_encode['expire'] = expire
 
-        jwt_token = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+        jwt_token = jwt.encode(
+            to_encode,
+            auth_config.SECRET_KEY,
+            algorithm=auth_config.ALGORITHM
+        )
         token = Token(access_token=jwt_token, token_type=TokenType.BEARER)
         return token
 
@@ -75,7 +81,11 @@ class AuthenticateService:
         credentials_exception = CredentialError('Wrong credentials')
 
         try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            payload = jwt.decode(
+                token,
+                auth_config.SECRET_KEY,
+                algorithms=[auth_config.ALGORITHM]
+            )
             token_data = TokenData(**payload)
         except (JWTError, ValidationError):
             raise credentials_exception
@@ -125,7 +135,7 @@ class User(models.Model):
     def create_access_token(self) -> Token:
         return AuthenticateService.create_access_token(
             toke_data=TokenData(username=self.username),
-            expires_delta=dt.timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES),
+            expires_delta=dt.timedelta(minutes=auth_config.ACCESS_TOKEN_EXPIRE_MINUTES),
         )
 
     def __str__(self):

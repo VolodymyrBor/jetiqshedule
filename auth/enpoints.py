@@ -4,15 +4,14 @@ from tortoise import exceptions
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
+from . import models, schemas, crud
 from .models import AuthenticateService
-from . import models, schemas, settings, crud
 from shared.shemes import Statuses, StatusResponse
+from configs import get_auth_config
 
 TAGS = ['auth']
-
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='auth/login')
-
-
+auth_config = get_auth_config()
 auth = APIRouter()
 
 
@@ -31,7 +30,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()) -> schemas.Tok
             headers={'WWW-Authenticate': 'Bearer'},
         )
 
-    access_token_expires = dt.timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token_expires = dt.timedelta(minutes=auth_config.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = AuthenticateService.create_access_token(
         toke_data=schemas.TokenData(username=user.username),
         expires_delta=access_token_expires,
