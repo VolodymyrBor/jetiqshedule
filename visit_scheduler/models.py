@@ -10,7 +10,7 @@ class ScheduledVisit(models.Model):
     lesson: Lesson = fields.ForeignKeyField('lesson_schedule.Lesson', on_delete=fields.CASCADE)
 
     status = fields.CharEnumField(enums.VisitStatuses, default=enums.VisitStatuses.CREATED)
-    error_message = fields.CharField(max_length=200, null=True)
+    error_message = fields.CharField(max_length=512, null=True)
     visit_start = fields.DatetimeField(null=True)
     visit_finish = fields.DatetimeField(null=True)
 
