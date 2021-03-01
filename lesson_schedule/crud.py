@@ -94,3 +94,14 @@ async def update_lesson(lesson_id: int, update_date: schemes.LessonUpdate, owner
     updated_lesson = await lesson.update_from_dict(update_dict)
     await updated_lesson.save()
     return updated_lesson
+
+
+async def copy_lesson(lesson_id: int, owner: auth_models.User) -> models.Lesson:
+    lesson = await get_lesson_by_id(lesson_id, owner)
+    lesson_data = schemes.Lesson(
+        time=lesson.time,
+        weekday=lesson.weekday,
+        week_slug=lesson.week_slug,
+        subject_name=lesson.subject.name,
+    )
+    return await create_lesson(lesson_data, owner)

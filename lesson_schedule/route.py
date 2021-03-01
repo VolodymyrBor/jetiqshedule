@@ -75,3 +75,8 @@ async def delete_lesson(lesson_id: int, user: User = Depends(get_current_user)):
 @schedule.patch('/lesson/{lesson_id}', response_model=LessonInDB, tags=['lessons'])
 async def update_lesson(lesson_id: int, update_data: LessonUpdate, user: User = Depends(get_current_user)):
     return await crud.update_lesson(lesson_id, update_data, user)
+
+
+@schedule.post('/lesson/{lesson_id}/copy', response_model=LessonInDB, tags=['lessons'])
+async def copy_lesson(lesson_id: int, user: User = Depends(get_current_user)):
+    return await crud.copy_lesson(lesson_id, user)
