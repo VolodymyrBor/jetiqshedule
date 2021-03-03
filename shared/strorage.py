@@ -17,9 +17,9 @@ class ImageStorage:
         self.folder = self.root_path / folder
 
     def save(self, file: Union[io.IOBase, Path]) -> Path:
+        self.folder.mkdir(parents=True, exist_ok=True)
         file_name = self._get_file_name(file.name)
         file_path = self.folder / file_name
-        file_path.parent.mkdir(parents=True, exist_ok=True)
 
         if isinstance(file, Path):
             shutil.copy(file, file_path)
