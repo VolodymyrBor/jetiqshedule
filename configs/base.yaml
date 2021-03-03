@@ -10,4 +10,3 @@ FAST_API:
 SCHEDULER:
   BROWSER_HEADLESS: true
   INTERVAL: 15 # seconds
-  TIME_ZONE: 'Europe/Kiev'

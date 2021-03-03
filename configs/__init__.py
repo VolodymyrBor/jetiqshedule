@@ -8,14 +8,14 @@ from .schmes import (
     BaseConfig,
     FastAPI,
     Scheduler,
-    MySQLConfig,
+    DBConfig,
     AuthConfig,
 )
 
 
 CONFIG_DIR = Path(__file__).parent
 BASE_CONFIG = CONFIG_DIR / 'base.yaml'
-MYSQL_CONFIG_FILE = CONFIG_DIR / 'mysql.yaml'
+DB_CONFIG_FILE = CONFIG_DIR / 'db.yaml'
 AUTH_CONFIG_FILE = CONFIG_DIR / 'auth.yaml'
 
 
@@ -62,8 +62,8 @@ def get_config(config_path=None) -> BaseConfig:
 
 
 @lru_cache()
-def get_db_config() -> MySQLConfig:
-    config = MySQLConfig(**yaml.safe_load(MYSQL_CONFIG_FILE.read_text()))
+def get_db_config() -> DBConfig:
+    config = DBConfig(**yaml.safe_load(DB_CONFIG_FILE.read_text()))
     return config
 
 

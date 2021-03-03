@@ -1,4 +1,6 @@
 import datetime
+from pathlib import Path
+from typing import Optional
 
 from visit_scheduler.enums import VisitStatuses
 
@@ -15,12 +17,13 @@ class LessonVisit(Visit):
 
 class VisitInfo(BaseModel):
     id: int
-    date: datetime.date
     lesson_id: int
+    date: datetime.date
     status: VisitStatuses
-    error_message: str = None
-    visit_start: datetime.datetime = None
-    visit_finish: datetime.datetime = None
+    image: Optional[Path] = None
+    error_message: Optional[str] = None
+    visit_start: Optional[datetime.datetime] = None
+    visit_finish: Optional[datetime.datetime] = None
 
     class Config:
         orm_mode = True

@@ -1,8 +1,12 @@
 from enum import Enum
+from pathlib import Path
 from typing import Optional
 from ipaddress import IPv4Address
 
 from pydantic import BaseModel, validator
+
+CONFIG_DIR = Path(__file__).parent
+ROOT_DIR = CONFIG_DIR.parent
 
 
 class LoggingLevel(str, Enum):
@@ -36,7 +40,6 @@ class FastAPI(BaseModel):
 class Scheduler(BaseModel):
     BROWSER_HEADLESS: bool
     INTERVAL: float
-    TIME_ZONE: TimeZones = TimeZones.UTC
 
     @validator('INTERVAL')
     def interval_validator(cls, interval: float) -> float:
@@ -72,12 +75,19 @@ class Config(BaseConfig):
     SCHEDULER: SchedulerUpdate = SchedulerUpdate()
 
 
-class MySQLConfig(BaseModel):
+class DBConfig(BaseModel):
     HOST: str = 'localhost'
     PORT: int = 3306
     USERNAME: str = 'root'
     PASSWORD: str = 'root'
     DATABASE: str = 'dev'
+
+    TIME_ZONE: TimeZones = TimeZones.UTC
+    MEDIA_DIR: Path
+
+    @validator('MEDIA_DIR', pre=True)
+    def _to_path(cls, path: str):
+        return ROOT_DIR / path
 
 
 class JWTAlgorithms(str, Enum):

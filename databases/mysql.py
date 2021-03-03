@@ -39,7 +39,8 @@ TORTOISE_ORM = {
 
 
 async def setup():
-    await Tortoise.init(config=TORTOISE_ORM)
+    config = get_db_config()
+    await Tortoise.init(config=TORTOISE_ORM, timezone=config.TIME_ZONE)
     await Tortoise.generate_schemas()
 
 

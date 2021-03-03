@@ -29,3 +29,6 @@ databases/db.sqlite3-wal
 
 # wedrivers
 visit_scheduler/visitor/drivers/chromedriver
+
+# MEDIA
+media

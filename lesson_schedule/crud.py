@@ -1,8 +1,12 @@
-import datetime
+import pytz
+import datetime as dt
 from typing import List
 
+from configs import get_db_config
 from . import schemes, models, enums
 from auth import models as auth_models
+
+db_config = get_db_config()
 
 
 async def get_all_subjects() -> List[models.Subject]:
@@ -52,12 +56,13 @@ async def get_lessons(
 
 async def create_lesson(lesson_data: schemes.Lesson, owner: auth_models.User) -> models.Lesson:
     lesson_dict = lesson_data.dict(exclude={'time', 'subject_name'})
-    lesson_time = datetime.datetime(
+    lesson_time = dt.datetime(
         year=2020,
         month=1,
         day=1,
         hour=lesson_data.time.hour,
         minute=lesson_data.time.minute,
+        tzinfo=pytz.timezone(db_config.TIME_ZONE),
     )
     lesson_dict['time'] = lesson_time
     lesson_dict['subject'] = await get_subject(lesson_data.subject_name, owner=owner)
@@ -79,12 +84,13 @@ async def update_lesson(lesson_id: int, update_date: schemes.LessonUpdate, owner
     lesson = await get_lesson_by_id(lesson_id, owner)
     update_dict = update_date.dict(exclude_none=True, exclude={'time', 'subject_name'})
     if update_date.time:
-        lesson_time = datetime.datetime(
+        lesson_time = dt.datetime(
             year=2020,
             month=1,
             day=1,
             hour=update_date.time.hour,
             minute=update_date.time.minute,
+            tzinfo=pytz.timezone(db_config.TIME_ZONE),
         )
         update_dict['time'] = lesson_time
 

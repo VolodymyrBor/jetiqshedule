@@ -3,22 +3,20 @@ import pytz
 import datetime
 from typing import List
 
-from selenium.common.exceptions import WebDriverException
-
 from shared import logger
 from databases import mysql
 from .enums import VisitStatuses
 from configs.schmes import Scheduler
-from visit_scheduler.visitor import Visitor, VisitorError
 from visit_scheduler.models import ScheduledVisit
+from visit_scheduler.visitor import Visitor, VisitorError
 
 
 class VisitScheduler:
 
-    def __init__(self, config: Scheduler):
+    def __init__(self, config: Scheduler, time_zone: str):
         self.headless = config.BROWSER_HEADLESS
         self.interval = config.INTERVAL
-        self.tz = pytz.timezone(config.TIME_ZONE.value)
+        self.tz = pytz.timezone(time_zone)
         self.logger = logger.get_logger('VisitScheduler')
 
     async def run(self):
@@ -58,13 +56,16 @@ class VisitScheduler:
                     username=owner.jetiq_username,
                     headless=self.headless,
                 )
-                visitor.run([subject])
-            except (WebDriverException, VisitorError) as err:
-                self.logger.warning(err)
-                visit.error_message = str(err)
+                img = visitor.run([subject])
+            except VisitorError as err:
+                err_msg = str(err)
+                self.logger.warning(err_msg)
+                visit.error_message = err_msg
+                visit.set_image(err.img)
                 visit.status = VisitStatuses.FAILED
             else:
                 visit.status = VisitStatuses.SUCCESSFUL
+                visit.set_image(img)
 
             visit.visit_finish = datetime.datetime.now(tz=self.tz)
             await visit.save()

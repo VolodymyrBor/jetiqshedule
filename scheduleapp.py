@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from databases import mysql
 from auth import auth_router
 from configs import get_config
+from media_api import media_router
 from visit_api.routs import visit_router
 from lesson_schedule.route import schedule
 
@@ -29,6 +30,7 @@ app.add_middleware(
 app.include_router(schedule, prefix='/schedule')
 app.include_router(visit_router, prefix='/visit')
 app.include_router(auth_router, prefix='/auth')
+app.include_router(media_router, prefix='/media')
 
 
 @app.on_event('startup')
